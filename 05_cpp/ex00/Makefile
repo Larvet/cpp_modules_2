@@ -1,6 +1,18 @@
-NAME = bureaucrat
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: locharve <locharve@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/11/15 10:00:46 by locharve          #+#    #+#              #
+#    Updated: 2024/11/15 10:01:33 by locharve         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-SRC = main.cpp Bureaucrat.cpp
+NAME ?= bureaucrat
+
+SRC ?= main.cpp Bureaucrat.cpp
 
 SRC_DIR = ./src
 OBJ_DIR = ./obj

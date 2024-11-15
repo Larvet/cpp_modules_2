@@ -1,5 +1,20 @@
-#include <iostream>
-#include <stdexcept>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Bureaucrat.hpp                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: locharve <locharve@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/15 10:00:10 by locharve          #+#    #+#             */
+/*   Updated: 2024/11/15 11:14:03 by locharve         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef BUREAUCRAT_HPP
+# define BUREAUCRAT_HPP
+
+# include <iostream>
+# include <stdexcept>
 
 class	Bureaucrat {
 	private:
@@ -21,12 +36,16 @@ class	Bureaucrat {
 
 		class	GradeTooHighException: public std::exception {
 			public:
-				void printException(std::string name);
+				void	constructException(std::string name);
+				void	incrementException(std::string name);
 		};
 		class	GradeTooLowException: public std::exception {
 			public:
-				void printException(std::string name);
+				void	constructException(std::string name);
+				void	decrementException(std::string name);
 		};
 };
 
 std::ostream&	operator<<(std::ostream& os, const Bureaucrat& b);
+
+#endif

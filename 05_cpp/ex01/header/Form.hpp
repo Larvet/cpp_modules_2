@@ -6,7 +6,7 @@
 /*   By: locharve <locharve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 10:03:23 by locharve          #+#    #+#             */
-/*   Updated: 2024/11/15 11:12:22 by locharve         ###   ########.fr       */
+/*   Updated: 2024/11/18 15:16:30 by locharve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 # define FORM_HPP
 
 # include <iostream>
-# include "Bureaucrat.hpp"
+//# include "Bureaucrat.hpp"
+class	Bureaucrat;
 
 class	Form {
 	private:
@@ -27,23 +28,25 @@ class	Form {
 		Form(const Form& src);
 		Form&	operator=(const Form& src);
 
-		unsigned int	testGrade(unsigned int g);
+		unsigned int	testGrade(unsigned int g) const;
 
 		const std::string	getName() const;
 		bool				getSigned() const;
-		const unsigned int	getGradeToSign() const;
-		const unsigned int	getGradeToExec() const;
+		unsigned int	getGradeToSign() const;
+		unsigned int	getGradeToExec() const;
 
 		void	beSigned(Bureaucrat& b);
 
 		~Form();
 
 		class	GradeTooHighException: public std::exception {
-			void	constructException(Form& f);
+			public:
+				void	constructException(const Form& f);
 		};
 		class	GradeTooLowException: public std::exception {
-			void	constructException(Form& f);
-			void	signException(Bureaucrat& b, Form& f);
+			public:
+				void	constructException(const Form& f);
+				void	signException(Bureaucrat& b, Form& f);
 		};
 };
 

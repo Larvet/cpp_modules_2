@@ -6,30 +6,35 @@
 /*   By: locharve <locharve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 10:15:23 by locharve          #+#    #+#             */
-/*   Updated: 2024/11/15 11:12:25 by locharve         ###   ########.fr       */
+/*   Updated: 2024/11/20 15:26:02 by locharve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Form.hpp"
+//#include "Form.hpp"
+#include "Bureaucrat.hpp"
 
 Form::Form(): _name("RightToBreatheForm"), _signed(0), _gradeToSign(1), _gradeToExec(1) {
 	std::cout << "+++++++ Form default constructor called: "
 		<< *this << std::endl;
 }
 
-Form::Form(const Form& src): _name(src.getName()), _gradeToSign(src.testGrade(getGradeToSign())),
-	_gradeToExec(src.testGrade(getGradeToExec())) {
-		*this = src;
+Form::Form(const Form& src): _name(src.getName()), _signed(src.getSigned()),
+	_gradeToSign(src.testGrade(getGradeToSign())), _gradeToExec(src.testGrade(getGradeToExec())) {
+	//	*this = src;
 		std::cout << "+++++++ Form copy constructor called: "
 			<< *this << std::endl;
 }
 
 Form&	Form::operator=(const Form& src) {
-	_signed = src.getSigned();
+	///////////////////
+//	_signed = src.getSigned();
+//	*this = Form(src);
+	this->~Form();
+	this->Form(src);
 	return (*this);
 }
 
-unsigned int	Form::testGrade(unsigned int g) {
+unsigned int	Form::testGrade(unsigned int g) const {
 	try {
 		if (g < 1)
 			throw (GradeTooHighException());
@@ -49,19 +54,19 @@ const std::string	Form::getName() const {
 	return (_name);
 }
 
-bool	getSigned() const {
+bool	Form::getSigned() const {
 	return (_signed);
 }
 
-const unsigned int	Form::getGradeToSign() const {
+unsigned int	Form::getGradeToSign() const {
 	return (_gradeToSign);
 }
 
-const unsigned int	Form::getGradeToExec() const {
+unsigned int	Form::getGradeToExec() const {
 	return (_gradeToExec);
 }
 
-void	beSigned(Bureaucrat& b) {
+void	Form::beSigned(Bureaucrat& b) {
 	if (b.getGrade() > getGradeToSign())
 		throw (GradeTooLowException());
 	else
@@ -72,18 +77,18 @@ Form::~Form() {
 	std::cout << "------- Form destructor called" << std::endl;
 }
 
-Form::GradeTooHighException::constructException(Form& f) {
+void	Form::GradeTooHighException::constructException(const Form& f) {
 	std::cerr << "Form " << f.getName()
 		<< " constructor: grade too high. It has been reset to 1."
 		<< std::endl;
 }
 
-Form::GradeTooLowException::constructException(Form& f) {
+void	Form::GradeTooLowException::constructException(const Form& f) {
 	std::cerr << "Form " << f.getName()
 		<< " constructor: grade too low. It has been reset to 150." << std::endl;
 }
 
-Form::GradeTooLowException::signException(Bureaucrat& b, Form& f) {
+void	Form::GradeTooLowException::signException(Bureaucrat& b, Form& f) {
 	std::cerr << b << " couldn't sign " << f
 		<< " because they don't have the required grade" << std::endl; 
 }

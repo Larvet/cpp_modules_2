@@ -6,7 +6,7 @@
 /*   By: locharve <locharve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 10:03:23 by locharve          #+#    #+#             */
-/*   Updated: 2024/11/18 15:16:30 by locharve         ###   ########.fr       */
+/*   Updated: 2024/12/02 14:00:23 by locharve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define FORM_HPP
 
 # include <iostream>
-//# include "Bureaucrat.hpp"
+
 class	Bureaucrat;
 
 class	Form {
@@ -25,6 +25,7 @@ class	Form {
 		const unsigned int	_gradeToExec;
 	public:
 		Form();
+		Form(std::string name, bool s, unsigned int gradeS, unsigned int gradeE);
 		Form(const Form& src);
 		Form&	operator=(const Form& src);
 
@@ -47,6 +48,10 @@ class	Form {
 			public:
 				void	constructException(const Form& f);
 				void	signException(Bureaucrat& b, Form& f);
+		};
+		class	AlreadySignedException: public std::exception {
+			public:
+				void	printException(Bureaucrat& b, Form& f);
 		};
 };
 

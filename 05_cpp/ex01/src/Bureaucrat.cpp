@@ -6,7 +6,7 @@
 /*   By: locharve <locharve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 10:00:22 by locharve          #+#    #+#             */
-/*   Updated: 2024/11/15 11:12:33 by locharve         ###   ########.fr       */
+/*   Updated: 2024/12/02 14:03:11 by locharve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ void	Bureaucrat::signForm(Form& f) {
 		std::cout << *this << " signed " << f << std::endl;
 	} catch (Form::GradeTooLowException& e) {
 		e.signException(*this, f);
+	} catch (Form::AlreadySignedException& e) {
+		e.printException(*this, f);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: locharve <locharve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 10:00:10 by locharve          #+#    #+#             */
-/*   Updated: 2024/11/18 15:03:56 by locharve         ###   ########.fr       */
+/*   Updated: 2024/12/02 13:42:16 by locharve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include <iostream>
 # include <stdexcept>
 # include "Form.hpp"
-//class	Form;
 
 class	Bureaucrat {
 	private:

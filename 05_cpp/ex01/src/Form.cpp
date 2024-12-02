@@ -6,31 +6,31 @@
 /*   By: locharve <locharve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 10:15:23 by locharve          #+#    #+#             */
-/*   Updated: 2024/11/20 15:26:02 by locharve         ###   ########.fr       */
+/*   Updated: 2024/12/02 14:00:39 by locharve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "Form.hpp"
 #include "Bureaucrat.hpp"
 
 Form::Form(): _name("RightToBreatheForm"), _signed(0), _gradeToSign(1), _gradeToExec(1) {
 	std::cout << "+++++++ Form default constructor called: "
-		<< *this << std::endl;
+		<< std::endl << *this << std::endl;
+}
+
+Form::Form(std::string name, bool s, unsigned int gradeS, unsigned int gradeE): _name(name),
+	_signed(s), _gradeToSign(testGrade(gradeS)), _gradeToExec(testGrade(gradeE)) {
+		std::cout << "+++++++ Form complete constructor called: "
+			<< std::endl << *this << std::endl;
 }
 
 Form::Form(const Form& src): _name(src.getName()), _signed(src.getSigned()),
 	_gradeToSign(src.testGrade(getGradeToSign())), _gradeToExec(src.testGrade(getGradeToExec())) {
-	//	*this = src;
 		std::cout << "+++++++ Form copy constructor called: "
-			<< *this << std::endl;
+			<< std::endl << *this << std::endl;
 }
 
 Form&	Form::operator=(const Form& src) {
-	///////////////////
-//	_signed = src.getSigned();
-//	*this = Form(src);
-	this->~Form();
-	this->Form(src);
+	this->_signed = src.getSigned();
 	return (*this);
 }
 
@@ -69,6 +69,8 @@ unsigned int	Form::getGradeToExec() const {
 void	Form::beSigned(Bureaucrat& b) {
 	if (b.getGrade() > getGradeToSign())
 		throw (GradeTooLowException());
+	else if (getSigned())
+		throw (AlreadySignedException());
 	else
 		_signed = 1;
 }
@@ -93,11 +95,16 @@ void	Form::GradeTooLowException::signException(Bureaucrat& b, Form& f) {
 		<< " because they don't have the required grade" << std::endl; 
 }
 
+void	Form::AlreadySignedException::printException(Bureaucrat& b, Form& f) {
+	std::cerr << b << " couldn't sign " << f
+		<< " because it is already signed" << std::endl;
+}
+
 std::ostream&	operator<<(std::ostream& os, const Form& f) {
-	os	<< "Form " << f.getName()
+	os	<< "[ Form " << f.getName()
 		<< (f.getSigned() ? " | signed | " : " | not signed | ")
 		<< " grade to sign: " << f.getGradeToSign()
-		<< " | grade to execute: " << f.getGradeToExec()
+		<< " | grade to execute: " << f.getGradeToExec() << " ]"
 		<< std::endl;
 	return (os);
 }

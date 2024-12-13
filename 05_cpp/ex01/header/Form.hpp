@@ -6,7 +6,7 @@
 /*   By: locharve <locharve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 10:03:23 by locharve          #+#    #+#             */
-/*   Updated: 2024/12/02 14:00:23 by locharve         ###   ########.fr       */
+/*   Updated: 2024/12/09 16:22:20 by locharve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,21 @@ class	Form {
 
 		~Form();
 
-		class	GradeTooHighException: public std::exception {
+		class	ConstructGradeTooHighException: public std::exception {
 			public:
-				void	constructException(const Form& f);
+				const char*	what() const throw();
+		};
+		class	ConstructGradeTooLowException: public std::exception {
+			public:
+				const char*	what() const throw();
 		};
 		class	GradeTooLowException: public std::exception {
 			public:
-				void	constructException(const Form& f);
-				void	signException(Bureaucrat& b, Form& f);
+				const char*	what() const throw();
 		};
 		class	AlreadySignedException: public std::exception {
 			public:
-				void	printException(Bureaucrat& b, Form& f);
+				const char*	what() const throw();
 		};
 };
 

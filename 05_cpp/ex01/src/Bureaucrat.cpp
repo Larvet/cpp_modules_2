@@ -6,7 +6,7 @@
 /*   By: locharve <locharve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 10:00:22 by locharve          #+#    #+#             */
-/*   Updated: 2024/12/02 14:03:11 by locharve         ###   ########.fr       */
+/*   Updated: 2024/12/10 14:24:12 by locharve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ Bureaucrat::Bureaucrat(std::string name, unsigned int grade): _name(name) {
 			throw (GradeTooLowException());
 		_grade = grade;
 	} catch (GradeTooHighException& e) {
-		e.constructException(name);
 		_grade = 1;
+		std::cerr << *this << "'s " << e.what() << " ; their grade has been reset to 1" << std::endl;
 	} catch (GradeTooLowException& e) {
-		e.constructException(name);
 		_grade = 150;
+		std::cerr << *this << "'s " << e.what() << " ; their grade has been reset to 150" << std::endl;
 	}
 	std::cout << "+++++++ Bureaucrat attributes constructor called: " << *this << std::endl;
 }
@@ -57,7 +57,7 @@ void	Bureaucrat::incrementGrade() {
 			throw (GradeTooHighException());
 		_grade--;
 	} catch (GradeTooHighException& e) {
-		e.incrementException(getName());
+		std::cerr << "Cannot increment " << *this << "'s " << e.what() << std::endl;
 	}
 }
 
@@ -67,7 +67,7 @@ void	Bureaucrat::decrementGrade() {
 			throw (GradeTooLowException());
 		_grade++;
 	} catch (GradeTooLowException& e) {
-		e.decrementException(getName());
+		std::cerr << "Cannot decrement " << *this << "'s " << e.what() << std::endl;
 	}
 }
 
@@ -76,9 +76,9 @@ void	Bureaucrat::signForm(Form& f) {
 		f.beSigned(*this);
 		std::cout << *this << " signed " << f << std::endl;
 	} catch (Form::GradeTooLowException& e) {
-		e.signException(*this, f);
+		std::cerr << *this << " couldn't sign " << f << ": " << e.what() << std::endl;
 	} catch (Form::AlreadySignedException& e) {
-		e.printException(*this, f);
+		std::cerr << *this << " couldn't sign " << f << ": " << e.what() << std::endl;
 	}
 }
 
@@ -86,24 +86,12 @@ Bureaucrat::~Bureaucrat() {
 	std::cout << "------- Bureaucrat destructor called: " << *this << std::endl;
 }
 
-void	Bureaucrat::GradeTooHighException::constructException(std::string name) {
-	std::cerr << "Bureaucrat attributes constructor: " << name
-		<< "'s grade is too high: it has been reset to 1" << std::endl;
+const char*	Bureaucrat::GradeTooHighException::what() const throw() {
+	return ("grade is too high");
 }
 
-void	Bureaucrat::GradeTooHighException::incrementException(const std::string name) {
-	std::cerr << "Cannot increment " << name
-			<< "'s grade: it is already set to 1." << std::endl;
-}
-
-void	Bureaucrat::GradeTooLowException::constructException(std::string name) {
-	std::cerr << "Bureaucrat attributes constructor: " << name
-		<< "'s grade is too low: it has been reset to 150" << std::endl;
-}
-
-void	Bureaucrat::GradeTooLowException::decrementException(const std::string name) {
-	std::cerr << "Cannot decrement " << name
-			<< "'s grade: it is already set to 150." << std::endl;
+const char*	Bureaucrat::GradeTooLowException::what() const throw() {
+	return ("grade is too low");
 }
 
 std::ostream&	operator<<(std::ostream& os, const Bureaucrat& b) {

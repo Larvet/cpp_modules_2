@@ -6,7 +6,7 @@
 /*   By: locharve <locharve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 10:03:23 by locharve          #+#    #+#             */
-/*   Updated: 2024/12/02 16:15:52 by locharve         ###   ########.fr       */
+/*   Updated: 2024/12/10 14:39:38 by locharve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,23 +46,25 @@ class	AForm {
 
 		virtual ~AForm();
 
-		class	GradeTooHighException: public std::exception {
+		class	ConstructGradeTooHighException: public std::exception {
 			public:
-				void	constructException(const AForm& f);
+				const char*	what() const throw();
+		};
+		class	ConstructGradeTooLowException: public std::exception {
+			public:
+				const char*	what() const throw();
 		};
 		class	GradeTooLowException: public std::exception {
 			public:
-				void	constructException(const AForm& f);
-				void	signException(Bureaucrat& b, AForm& f);
-				void	executeException(Bureaucrat const & b, AForm const & f);
+				const char*	what() const throw();
 		};
 		class	AlreadySignedException: public std::exception {
 			public:
-				void	printException(Bureaucrat& b, AForm& f);
+				const char*	what() const throw();
 		};
 		class	NotSignedException: public std::exception {
 			public:
-				void	printException(Bureaucrat const & b, AForm const & f);
+				const char*	what() const throw();
 		};
 };
 

@@ -1,35 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   RobotomyRequestForm.hpp                            :+:      :+:    :+:   */
+/*   PresidentialPardonForm.hpp                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: locharve <locharve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/02 16:11:50 by locharve          #+#    #+#             */
-/*   Updated: 2024/12/03 15:04:21 by locharve         ###   ########.fr       */
+/*   Created: 2024/12/03 15:08:40 by locharve          #+#    #+#             */
+/*   Updated: 2024/12/09 15:28:42 by locharve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ROBOTOMYREQUESTFORM_HPP
-# define ROBOTOMYREQUESTFORM_HPP
+#ifndef PRESIDENTIALPARDONFORM_HPP
+# define PRESIDENTIALPARDONFORM_HPP
 
-# include <ctime>
-# include <cstdlib>
 # include "AForm.hpp"
 
-class	RobotomyRequestForm: public AForm {
+class	PresidentialPardonForm: public AForm {
 	private:
 		std::string	_target;
 	public:
-		RobotomyRequestForm();
-		RobotomyRequestForm(std::string target);
-		RobotomyRequestForm(const RobotomyRequestForm& src);
-		RobotomyRequestForm& operator=(const RobotomyRequestForm& src);
+		PresidentialPardonForm();
+		PresidentialPardonForm(std::string target);
+		PresidentialPardonForm(const PresidentialPardonForm& src);
+		PresidentialPardonForm& operator=(const PresidentialPardonForm& src);
 
 		std::string	getTarget() const;
 		void	doExecute() const;
 
-		~RobotomyRequestForm();
+		~PresidentialPardonForm();
 };
 
 #endif

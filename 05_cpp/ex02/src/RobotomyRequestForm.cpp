@@ -6,7 +6,7 @@
 /*   By: locharve <locharve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 16:16:43 by locharve          #+#    #+#             */
-/*   Updated: 2024/12/02 16:28:00 by locharve         ###   ########.fr       */
+/*   Updated: 2024/12/03 15:07:31 by locharve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,19 @@ RobotomyRequestForm&	RobotomyRequestForm::operator=(const RobotomyRequestForm& s
 	return (*this);
 }
 
+std::string	RobotomyRequestForm::getTarget() const {
+	return (_target);
+}
+
 void	RobotomyRequestForm::doExecute() const {
-	std::srand(std::time(nullptr));
+	std::srand(std::time(NULL));
 	std::cout << "haha robotomy go brrrr..." << std::endl;
 	if (std::rand() % 2)
 		std::cout << getTarget() << " has been robotomized !" << std::endl;
 	else
 		std::cout << "Oh no... Robotomy has failed..." << std::endl;
+}
+
+RobotomyRequestForm::~RobotomyRequestForm() {
+	std::cout << "------- RobotomyRequestForm destructor called" << std::endl;
 }

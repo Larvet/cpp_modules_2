@@ -6,7 +6,7 @@
 /*   By: locharve <locharve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 10:15:23 by locharve          #+#    #+#             */
-/*   Updated: 2024/12/02 16:09:57 by locharve         ###   ########.fr       */
+/*   Updated: 2024/12/10 15:02:54 by locharve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,14 @@ AForm&	AForm::operator=(const AForm& src) {
 unsigned int	AForm::testGrade(unsigned int g) const {
 	try {
 		if (g < 1)
-			throw (GradeTooHighException());
+			throw (ConstructGradeTooHighException());
 		else if (g > 150)
-			throw (GradeTooLowException());
-	} catch (GradeTooHighException& e) {
-		e.constructException(*this);
+			throw (ConstructGradeTooLowException());
+	} catch (ConstructGradeTooHighException& e) {
+		std::cerr << *this << e.what() << std::endl;
 		return (1);
-	} catch (GradeTooLowException& e) {
-		e.constructException(*this);
+	} catch (ConstructGradeTooLowException& e) {
+		std::cerr << *this << e.what() << std::endl;
 		return (150);
 	}
 	return (g);
@@ -91,42 +91,30 @@ AForm::~AForm() {
 	std::cout << "------- AForm destructor called" << std::endl;
 }
 
-void	AForm::GradeTooHighException::constructException(const AForm& f) {
-	std::cerr << "AForm " << f.getName()
-		<< " constructor: grade too high. It has been reset to 1."
-		<< std::endl;
+const char*	AForm::ConstructGradeTooHighException::what() const throw() {
+	return (" constructor: grade too high. It has been reset to 1.");
 }
 
-void	AForm::GradeTooLowException::constructException(const AForm& f) {
-	std::cerr << "AForm " << f.getName()
-		<< " constructor: grade too low. It has been reset to 150." << std::endl;
+const char*	AForm::ConstructGradeTooLowException::what() const throw() {
+	return (" constructor: grade too low. It has been reset to 150.");
 }
 
-void	AForm::GradeTooLowException::signException(Bureaucrat& b, AForm& f) {
-	std::cerr << b << " couldn't sign " << f
-		<< " because they don't have the required grade" << std::endl; 
+const char*	AForm::GradeTooLowException::what() const throw() {
+	return (" they don't have the required grade"); 
 }
 
-void	AForm::GradeTooLowException::executeException(Bureaucrat const & b, AForm const & f) {
-	std::cerr << b << " couldn't execute " << f
-		<< " because their grade is too low" << std::endl;
+const char*	AForm::AlreadySignedException::what() const throw() {
+	return (" it is already signed");
 }
 
-void	AForm::AlreadySignedException::printException(Bureaucrat& b, AForm& f) {
-	std::cerr << b << " couldn't sign " << f
-		<< " because it is already signed" << std::endl;
-}
-
-void	AForm::NotSignedException::printException(Bureaucrat const & b, AForm const & f) {
-	std::cerr << b << " couldn't execute " << f
-		<< " because it is not signed" << std::endl;
+const char*	AForm::NotSignedException::what() const throw() {
+	return (" it is not signed");
 }
 
 std::ostream&	operator<<(std::ostream& os, const AForm& f) {
-	os	<< "[ AForm " << f.getName()
+	os	<< "[ Form " << f.getName()
 		<< (f.getSigned() ? " | signed | " : " | not signed | ")
 		<< " grade to sign: " << f.getGradeToSign()
-		<< " | grade to execute: " << f.getGradeToExec() << " ]"
-		<< std::endl;
+		<< " | grade to execute: " << f.getGradeToExec() << " ]";
 	return (os);
 }

@@ -6,13 +6,13 @@
 #    By: locharve <locharve@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/13 16:07:14 by locharve          #+#    #+#              #
-#    Updated: 2024/12/13 16:08:31 by locharve         ###   ########.fr        #
+#    Updated: 2024/12/14 14:33:12 by locharve         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME ?= scalar
+NAME ?= convert
 
-SRC ?= main.cpp 
+SRC ?= main.cpp ScalarConverter.cpp
 
 SRC_DIR = ./src
 OBJ_DIR = ./obj

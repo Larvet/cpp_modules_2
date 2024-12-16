@@ -6,7 +6,7 @@
 /*   By: locharve <locharve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 16:09:15 by locharve          #+#    #+#             */
-/*   Updated: 2024/12/14 15:38:15 by locharve         ###   ########.fr       */
+/*   Updated: 2024/12/16 15:39:40 by locharve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <iostream>
 # include <cstdlib>
 # include <cctype>
+# include <limits>
+# include <sstream>
 
 class	ScalarConverter {
 	private:

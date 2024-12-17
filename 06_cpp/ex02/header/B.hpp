@@ -6,7 +6,7 @@
 /*   By: locharve <locharve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 16:23:45 by locharve          #+#    #+#             */
-/*   Updated: 2024/12/16 16:24:55 by locharve         ###   ########.fr       */
+/*   Updated: 2024/12/17 14:33:44 by locharve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 
 # include "Base.hpp"
 
-class	B: public Base {
-	
-};
+class	B: public Base {};
 
 #endif

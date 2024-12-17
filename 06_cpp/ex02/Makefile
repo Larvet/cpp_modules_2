@@ -6,12 +6,12 @@
 #    By: locharve <locharve@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/16 16:18:55 by locharve          #+#    #+#              #
-#    Updated: 2024/12/16 16:19:24 by locharve         ###   ########.fr        #
+#    Updated: 2024/12/17 14:36:18 by locharve         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = identify
 
-SRC = main.cpp Base.cpp
+SRC = main.cpp Base.cpp fonctions.cpp
 
 include ../ex00/Makefile

@@ -6,7 +6,7 @@
 /*   By: locharve <locharve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 16:16:43 by locharve          #+#    #+#             */
-/*   Updated: 2024/12/03 15:07:31 by locharve         ###   ########.fr       */
+/*   Updated: 2024/12/18 14:07:06 by locharve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ std::string	RobotomyRequestForm::getTarget() const {
 
 void	RobotomyRequestForm::doExecute() const {
 	std::srand(std::time(NULL));
-	std::cout << "haha robotomy go brrrr..." << std::endl;
+	std::cout << "Robotomy goes brrrr..." << std::endl;
 	if (std::rand() % 2)
 		std::cout << getTarget() << " has been robotomized !" << std::endl;
 	else

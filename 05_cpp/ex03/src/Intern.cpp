@@ -6,7 +6,7 @@
 /*   By: locharve <locharve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 15:12:43 by locharve          #+#    #+#             */
-/*   Updated: 2024/12/13 16:05:48 by locharve         ###   ########.fr       */
+/*   Updated: 2024/12/18 14:16:59 by locharve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,12 @@ static void	AFormTabInit(AForm* (&tab)[3], std::string target) {
 } 
 
 AForm*	Intern::makeForm(std::string formName, std::string target) {
-//	AForm*	tab[3] = {new ShrubberyCreationForm(target),
-//		new RobotomyRequestForm(target),
-//		new PresidentialPardonForm(target)};
 	AForm*	tab[3];
 	AFormTabInit(tab, target);
-	if (!tab[0])
+	if (!tab[0]) {
+		std::cerr << "Allocation error in Intern::makeForm()" << std::endl;
 		return (NULL);
+	}
 	try {
 		int	i = 0, j;
 		while (i < 3 && tab[i]->getName() != formName)

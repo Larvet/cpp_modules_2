@@ -6,7 +6,7 @@
 /*   By: locharve <locharve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 16:17:00 by locharve          #+#    #+#             */
-/*   Updated: 2024/12/16 15:34:43 by locharve         ###   ########.fr       */
+/*   Updated: 2024/12/18 14:24:19 by locharve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static bool	isConvertible(std::string str) {
 	std::string::iterator	it = str.begin();
 	std::string::iterator	end = str.end();
 
-	if (*it == '-')
+	if (*it == '-' || *it == '+')
 		it++;
 	while (it != end && std::isdigit(*it))
 		it++;
@@ -58,7 +58,11 @@ static bool	isConvertible(std::string str) {
 		return (false);
 	while (it != end && std::isdigit(*it))
 		it++;
-	return (it == end || *it == 'f');
+	if (it == end)
+		return (true);
+	if (*it == 'f')
+		it++;
+	return (it == end);
 }
 
 void	ScalarConverter::convert(std::string str) {

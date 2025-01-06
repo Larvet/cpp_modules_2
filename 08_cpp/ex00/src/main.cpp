@@ -6,7 +6,7 @@
 /*   By: locharve <locharve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 11:15:28 by locharve          #+#    #+#             */
-/*   Updated: 2025/01/05 12:19:23 by locharve         ###   ########.fr       */
+/*   Updated: 2025/01/06 14:35:41 by locharve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include <vector>
 #include <deque>
 #include <list>
+
+// stack, queue, priority_queue !
 
 int	main() {
 	int	value = 3;

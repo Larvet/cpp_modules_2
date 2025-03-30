@@ -41,79 +41,106 @@ static void	handleSpecial(std::string str) {
 		std::cout << d << std::endl;
 }
 
-static bool	isConvertible(std::string str) {
-	std::string::iterator	it = str.begin();
-	std::string::iterator	end = str.end();
+static bool	isSpecial(const std::string& str) {
+	return (str == "nan" || str == "nanf" || str == "-inf"
+		|| str == "-inff" || str == "+inf" || str == "+inff");
+}
 
-	if (*it == '-' || *it == '+')
-		it++;
-	while (it != end && std::isdigit(*it))
-		it++;
-	if (it == end)
-		return (true);
-	if (*it != '.')
-		return (false);
-	it++;
-	if (!std::isdigit(*it))
-		return (false);
-	while (it != end && std::isdigit(*it))
-		it++;
-	if (it == end)
-		return (true);
-	if (*it == 'f')
-		it++;
-	return (it == end);
+static bool	isChar(const std::string& str) {
+	return (str.size() == 1 && isprint(str[0]));
+}
+
+static bool	isInt(const std::string& str) {
+	size_t	sign = (str[0] == '-' || str[0] == '+');
+	return (str.find_first_not_of("0123456789", sign) == std::string::npos);
+}
+
+static bool	isFloat(const std::string& str) {
+	size_t	sign = (str[0] == '-' || str[0] == '+'),
+			pos = str.find_first_not_of("0123456789", sign);
+
+	if (pos != std::string::npos && str[pos] == '.') {
+		pos = str.find_first_not_of("0123456789", ++pos);
+
+		return (pos != std::string::npos && str[pos] == 'f' && pos == str.size() - 1);
+	}
+	return (false);
+}
+
+static bool	isDouble(const std::string& str) {
+	size_t	sign = (str[0] == '-' || str[0] == '+'),
+			pos = str.find_first_not_of("0123456789", sign);
+
+	return (pos != std::string::npos && str[pos] == '.'
+		&& str.find_first_not_of("0123456789", ++pos) == std::string::npos);
+}
+
+static void	convertChar(s_type& sType, const char* str) {
+	sType.c = str[0];
+	sType.i = static_cast< int >(sType.c);
+	sType.f = static_cast< float >(sType.c);
+	sType.d = static_cast< double >(sType.c);
+}
+
+static void	convertInt(s_type& sType, const char* str) {
+	sType.i = std::atoi(str);
+	sType.c = static_cast< char >(sType.i);
+	sType.f = static_cast< float >(sType.i);
+	sType.d = static_cast< double >(sType.d);
+}
+
+static void	convertFloat(s_type& sType, const char* str) {
+	sType.f = std::atof(str);
+	sType.c = static_cast< char >(sType.f);
+	sType.i = static_cast< int >(sType.f);
+	sType.d = static_cast< double >(sType.f);
+}
+
+static void	convertDouble(s_type& sType, const char* str) {
+	sType.d = std::atof(str);
+	sType.c = static_cast< char >(sType.d);
+	sType.i = static_cast< int >(sType.d);
+	sType.f = static_cast< float >(sType.d);
+}
+
+static void	handleNotConvertible(const std::string& str) {
+	std::cout << "Not convertible: " << str << std::endl;
 }
 
 void	ScalarConverter::convert(std::string str) {
-	if (str == "nan" || str == "nanf" || str == "-inf"
-		|| str == "-inff" || str == "+inf" || str == "+inff")
-		handleSpecial(str);
-	else if (!isConvertible(str))
-		std::cout << "Conversion is impossible: " << str << std::endl;
-	else {
-		std::stringstream	stream;
-		long double	d = atof(str.c_str());
-		long long	l = static_cast<long>(d);
+	s_type	sType;
 
-		/* CHAR */
-		std::cout << "char:\t";
-		if (l >= 33 && l <= 126)
-			std::cout << static_cast<char>(l) << std::endl;
-		else if (l < std::numeric_limits<char>::min() || l > std::numeric_limits<char>::max())
-			std::cout << "char overflow" << std::endl;
-		else
-			std::cout << "non displayable" << std::endl;
+	if (isSpecial(str))
+		handleSpecial(str.c_str()); ////
+	else if (isChar(str))
+		convertChar(sType, str.c_str());
+	else if (isInt(str))
+		convertInt(sType, str.c_str());
+	else if (isFloat(str))
+		convertFloat(sType, str.c_str());
+	else if (isDouble(str))
+		convertDouble(sType, str.c_str());
+	else
+		handleNotConvertible(str);
 
-		/* INT */
-		std::cout << "int:\t";
-		if (l >= std::numeric_limits<int>::min() && l <= std::numeric_limits<int>::max())
-			std::cout << static_cast<int>(l) << std::endl;
-		else
-			std::cout << "int overflow" << std::endl;
+	// setprecision !
+	std::stringstream	ss;
+	
+	ss << sType.f;
+	std::cout << "char:\t" << sType.c << '\'' << std::endl
+		<< "int:\t" << sType.i << std::endl;
+		
 
-		/* FLOAT */
-		std::cout << "float:\t";
-		if (d >= -std::numeric_limits<float>::max() && d <= std::numeric_limits<float>::max()) {
-			stream << static_cast<float>(d);
-			if (stream.str().find('.') == std::string::npos)
-				stream << ".0";
-			std::cout << stream.str() << 'f' << std::endl;
-			stream.str(std::string());
-		}
-		else
-			std::cout << "float overflow" << std::endl;
-
-		/* DOUBLE */
-		std::cout << "double:\t";
-		if (d >= -std::numeric_limits<double>::max() && d <= std::numeric_limits<double>::max()) {
-			stream << static_cast<double>(d);
-			if (stream.str().find('.') == std::string::npos)
-				stream << ".0";
-			std::cout << stream.str() << std::endl;
-			stream.str(std::string());
-		}
-		else
-			std::cout << "double overflow" << std::endl;
-	}
+	ss << sType.f;
+	if (ss.str().find('.') == std::string::npos)
+		ss << ".0f";
+	else
+		ss << 'f';
+	std::cout << "float:\t" << ss.str() << std::endl;
+	ss.str("");
+	
+	ss << sType.d;
+	if (ss.str().find('.') == std::string::npos)
+		ss << ".0";
+	std::cout << "double:\t" << ss.str() << std::endl;
 }

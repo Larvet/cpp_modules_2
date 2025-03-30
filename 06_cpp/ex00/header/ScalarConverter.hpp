@@ -19,15 +19,24 @@
 # include <limits>
 # include <sstream>
 
+struct s_type {
+	char	c;
+	int		i;
+	float	f;
+	double	d;
+};
+
+
 class	ScalarConverter {
 	private:
 		ScalarConverter();
 	public:
 		ScalarConverter(const ScalarConverter& src);
 		ScalarConverter& operator=(const ScalarConverter& src);
-		~ScalarConverter();
 		
 		static void convert(std::string str);
+
+		~ScalarConverter();
 };
 
 #endif

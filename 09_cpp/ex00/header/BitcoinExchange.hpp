@@ -3,16 +3,27 @@
 
 # include <map>
 # include <iostream>
+# include <iomanip>
 # include <string>
 # include <fstream>
 # include <exception>
 # include <cstdlib>
 
+# define WHITESPACES "\t\n\v\f\r "
+
+class	StrException: public std::exception {
+	protected:
+		const std::string	_str;
+	public:
+		StrException(const std::string& str);
+		const char*	what() const throw();
+
+		virtual ~StrException() throw();
+};
+
 class	BitcoinExchange {
 	private:
 		std::map< std::string, std::string >	_dataBase;
-		std::map< std::string, std::string >	_input;
-		std::map< std::pair< std::string, std::string >, std::string >	_result;
 	public:
 		BitcoinExchange();
 		BitcoinExchange(const char* const & fileName);
@@ -20,31 +31,37 @@ class	BitcoinExchange {
 		BitcoinExchange&	operator=(const BitcoinExchange& rhs);
 
 		void	parseDataBase();
-		void	parseInputFile(const char* const & fileName);
-		void	calculateResult();
-		void	printResult() const;
+		void	readInputFile(const char* const & fileName);
+		float	calculateResult(const std::string& date, const std::string& amount);
 
 		const std::map< std::string, std::string >&	getDataBase() const;
+		const std::string&	getMin() const;
 
 		~BitcoinExchange();
 
-		class	CannotOpenFile: public std::exception {
-			private:
-				const std::string	_str;
+		class	CannotOpenFile: public StrException {
 			public:
 				CannotOpenFile(std::string str);
-				const char*	what() const throw();
 
-				~CannotOpenFile();
+				~CannotOpenFile() throw();
 		};
-		class	BadInput: public std::exception {
-			private:
-				const std::string	_str;
+		class	BadInput: public StrException {
 			public:
 				BadInput(std::string str);
-				const char*	what() const throw();
 
-				~BadInput();
+				~BadInput() throw();
+		};
+		class	InvalidDate: public StrException {
+			public:
+				InvalidDate(std::string str);
+
+				~InvalidDate() throw();
+		};
+		class	InvalidAmount: public StrException {
+			public:
+				InvalidAmount(std::string str);
+
+				~InvalidAmount() throw();
 		};
 };
 

@@ -6,7 +6,7 @@
 /*   By: locharve <locharve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:34:42 by locharve          #+#    #+#             */
-/*   Updated: 2024/12/18 14:27:13 by locharve         ###   ########.fr       */
+/*   Updated: 2025/04/03 16:59:53 by locharve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,10 @@ Base*	generate() {
 		if (i != r)
 			delete tab[i];
 	}
-//	std::cout << "generate: " << (char)(r + 65) << std::endl;
 	return (tab[r]);
 }
 
 void	identify(Base* p) {
-//	std::cout << "identify with ptr: ";
 	if (dynamic_cast<A*>(p))
 		std::cout << "A" << std::endl;
 	else if (dynamic_cast<B*>(p))
@@ -57,7 +55,6 @@ void	identify(Base* p) {
 }
 
 void	identify(Base& p) {
-//	std::cout << "identify with ref: ";
 	if (dynamic_cast<A*>(&p))
 		std::cout << "A" << std::endl;
 	else if (dynamic_cast<B*>(&p))

@@ -6,7 +6,7 @@
 /*   By: locharve <locharve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 10:00:22 by locharve          #+#    #+#             */
-/*   Updated: 2024/12/09 16:29:02 by locharve         ###   ########.fr       */
+/*   Updated: 2025/01/17 11:49:38 by locharve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,10 @@ unsigned int	Bureaucrat::getGrade() const {
 
 void	Bureaucrat::incrementGrade() {
 	try {
-		if (_grade <= 1)
+		if (_grade <= 1) {
+			_grade = 1;
 			throw (GradeTooHighException());
+		}
 		_grade--;
 	} catch (GradeTooHighException& e) {
 		std::cerr << "Cannot increment: " << getName() << e.what() << std::endl;
@@ -63,8 +65,10 @@ void	Bureaucrat::incrementGrade() {
 
 void	Bureaucrat::decrementGrade() {
 	try {
-		if (_grade >= 150)
+		if (_grade >= 150) {
+			_grade = 150;
 			throw (GradeTooLowException());
+		}
 		_grade++;
 	} catch (GradeTooLowException& e) {
 		std::cerr << "Cannot decrement: " << getName() << e.what() << std::endl;

@@ -6,7 +6,7 @@
 /*   By: locharve <locharve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:31:37 by locharve          #+#    #+#             */
-/*   Updated: 2025/01/06 14:32:52 by locharve         ###   ########.fr       */
+/*   Updated: 2025/01/07 10:27:51 by locharve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,17 +59,22 @@ void	Span::addRange(unsigned int n) {
 	try {
 		if (_stock.size() >= _size)
 			throw (FullStockException());
+
 		if (_size + n > _stock.size())
 			n = _size - _stock.size();
+
 		std::vector<int>	tmpStock;
 		srand(time(NULL));
 		for (unsigned int i = 0; i < n; i++)
 			tmpStock.push_back(rand() % 100000);
+
 		std::vector<int>	tmpDist;
 		for (unsigned int i = 0; i < n - 1; i++)
 			tmpDist.push_back(calculateDist(tmpStock[i], tmpStock[i + 1]));
+
 		_stock.insert(_stock.end(), tmpStock.begin(), tmpStock.end());
 		_dist.insert(_dist.end(), tmpDist.begin(), tmpDist.end());
+		
 	} catch (FullStockException& e) {
 		std::cerr << e.what() << std::endl;
 	}

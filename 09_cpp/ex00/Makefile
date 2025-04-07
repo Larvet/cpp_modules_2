@@ -5,14 +5,14 @@
 #                                                     +:+ +:+         +:+      #
 #    By: locharve <locharve@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/12/13 16:07:14 by locharve          #+#    #+#              #
-#    Updated: 2025/04/03 14:44:35 by locharve         ###   ########.fr        #
+#    Created: 2025/01/10 12:14:45 by locharve          #+#    #+#              #
+#    Updated: 2025/01/10 15:22:25 by locharve         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME ?= convert
+NAME ?= btc
 
-SRC ?= main.cpp ScalarConverter.cpp detect.cpp convert.cpp
+SRC ?= main.cpp BitcoinExchange.cpp
 
 SRC_DIR = ./src
 OBJ_DIR = ./obj

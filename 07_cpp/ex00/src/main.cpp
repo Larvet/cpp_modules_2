@@ -6,11 +6,53 @@
 /*   By: locharve <locharve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 14:50:49 by locharve          #+#    #+#             */
-/*   Updated: 2025/04/03 17:36:28 by locharve         ###   ########.fr       */
+/*   Updated: 2025/04/07 16:54:24 by locharve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "whatever.hpp"
+
+// ExampleClass member functions
+// here because additional .cpp files are not allowed
+
+ExampleClass::ExampleClass(int n, void* ptr): _n(n), _ptr(ptr) {}
+
+ExampleClass::ExampleClass(): _n(42), _ptr(NULL) {}
+
+ExampleClass::ExampleClass(const ExampleClass& src) {
+	*this = src;
+}
+
+ExampleClass&	ExampleClass::operator=(const ExampleClass& src) {
+	_n = src.getN();
+	_ptr = src.getPtr();
+	return (*this);
+}
+
+int	ExampleClass::getN() const {
+	return (_n);
+}
+
+void*	ExampleClass::getPtr() const {
+	return (_ptr);
+}
+
+bool	ExampleClass::operator<(const ExampleClass& ex) const {
+	return (_n < ex.getN());
+}
+
+bool	ExampleClass::operator>(const ExampleClass& ex) const {
+	return (_n > ex.getN());
+}
+
+ExampleClass::~ExampleClass() {}
+
+std::ostream&	operator<<(std::ostream& os, const ExampleClass& ex) {
+	os << ex.getN() << " " << ex.getPtr();
+	return (os);
+}
+
+// main
 
 int	main() {
 	int	a = 42, b = 153;

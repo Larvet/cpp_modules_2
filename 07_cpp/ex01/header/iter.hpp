@@ -6,7 +6,7 @@
 /*   By: locharve <locharve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 15:37:06 by locharve          #+#    #+#             */
-/*   Updated: 2025/01/02 08:52:41 by locharve         ###   ########.fr       */
+/*   Updated: 2025/04/07 17:01:39 by locharve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,31 +15,29 @@
 
 # include <iostream>
 
+// ExampleClass for tests
+// here because additional .hpp files are not allowed
+
 class	ExampleClass {
 	private:
 		int	_n;
 		void*	_ptr;
 	public:
-		ExampleClass(int n, void* ptr): _n(n), _ptr(ptr) {}
-		ExampleClass() { _n = 42; _ptr = NULL; }
-		ExampleClass(const ExampleClass& src) { *this = src; }
-		ExampleClass&	operator=(const ExampleClass& src) { _n = src.getN(); _ptr = src.getPtr(); return (*this); }
-		ExampleClass&	operator=(const int& n) { _n = n; return (*this); }
-		~ExampleClass() {}
+		ExampleClass();
+		ExampleClass(int n, void* ptr);
+		ExampleClass(const ExampleClass& src);
+		ExampleClass&	operator=(const ExampleClass& src);
+		ExampleClass&	operator=(const int& n);
+		~ExampleClass();
 
-		void	setN(int n) { _n = n; }
-		void	setPtr(void* ptr) { _ptr = ptr; }
+		void	setN(int n);
+		void	setPtr(void* ptr);
 
-		int	getN() const { return (_n); }
-		void*	getPtr() const { return (_ptr); }
+		int	getN() const;
+		void*	getPtr() const;
 
-	//	ExampleClass&	operator+=(const int& n) { _n += n; return (*this); }
-
-		bool	operator<(const ExampleClass& ex) const { return (_n < ex.getN()); }
-	//	bool	operator<(const ExampleClass& ex) const { return (_ptr < ex.getPtr()); }		
-
-		bool	operator>(const ExampleClass& ex) const { return (_n > ex.getN()); }
-	//	bool	operator>(const ExampleClass& ex) const { return (_ptr > ex.getPtr()); }
+		bool	operator<(const ExampleClass& ex) const;
+		bool	operator>(const ExampleClass& ex) const;
 };
 
 std::ostream&	operator<<(std::ostream& os, const ExampleClass& ex) { os << ex.getN() << " " << ex.getPtr(); return (os); }

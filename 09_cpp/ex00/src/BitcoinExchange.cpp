@@ -34,7 +34,7 @@ void	BitcoinExchange::parseDataBase() {
 	std::getline(ifs, str);
 	while (std::getline(ifs, str)) {
 		size_t		pos(str.find(','));
-		std::string	key = str.substr(0, pos), // retirer les espaces
+		std::string	key = str.substr(0, pos),
 			value = str.substr(pos + 1);
 		eraseWhitespaces(key);
 		eraseWhitespaces(value);

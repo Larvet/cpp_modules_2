@@ -6,11 +6,59 @@
 /*   By: locharve <locharve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 15:40:20 by locharve          #+#    #+#             */
-/*   Updated: 2025/01/02 08:52:43 by locharve         ###   ########.fr       */
+/*   Updated: 2025/04/07 17:01:16 by locharve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "iter.hpp"
+
+// ExampleClass member functions
+// here because additonal .cpp files are not allowed
+
+ExampleClass::ExampleClass(int n, void* ptr): _n(n), _ptr(ptr) {}
+
+ExampleClass::ExampleClass(): _n(42), _ptr(NULL) {}
+
+ExampleClass::ExampleClass(const ExampleClass& src) {
+	*this = src;
+}
+
+ExampleClass&	ExampleClass::operator=(const ExampleClass& src) {
+	_n = src.getN();
+	_ptr = src.getPtr();
+	return (*this);
+}
+
+ExampleClass&	ExampleClass::operator=(const int& n) {
+	_n = n;
+	return (*this);
+}
+
+ExampleClass::~ExampleClass() {}
+
+void	ExampleClass::setN(int n) {
+	_n = n;
+}
+
+void	ExampleClass::setPtr(void* ptr) {
+	_ptr = ptr;
+}
+
+int	ExampleClass::getN() const {
+	return (_n);
+}
+
+void*	ExampleClass::getPtr() const {
+	return (_ptr);
+}
+
+bool	ExampleClass::operator<(const ExampleClass& ex) const {
+	return (_n < ex.getN());
+}
+
+bool	ExampleClass::operator>(const ExampleClass& ex) const {
+	return (_n > ex.getN());
+}
 
 int	main() {
 	int*	intTab = new int[10];

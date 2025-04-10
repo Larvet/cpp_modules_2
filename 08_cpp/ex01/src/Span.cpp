@@ -34,68 +34,64 @@ std::vector<int> const &	Span::getStock() const {
 	return (_stock);
 }
 
-int	Span::calculateDist(int a, int b) {
-	int	dist = a - b;
-	return (dist < 0 ? -dist : dist);
-}
-
-void	Span::updateDist(int a, int b) {
-	_dist.push_back(calculateDist(a, b));
-}
-
 void	Span::addNumber(int nbr) {
 	try {
 		if (_stock.size() >= _size)
 			throw (FullStockException());
 		_stock.push_back(nbr);
-		if (_stock.size() >= 2)
-			updateDist(_stock[_stock.size() - 2], _stock[_stock.size() - 1]);
 	} catch (FullStockException& e) {
 		std::cerr << e.what() << std::endl;
 	}
 }
 
-void	Span::addRange(unsigned int n) {
+void	Span::addRange(typename s_vec_range< int >::t range) {
 	try {
 		if (_stock.size() >= _size)
 			throw (FullStockException());
-
-		if (_size + n > _stock.size())
-			n = _size - _stock.size();
-
-		std::vector<int>	tmpStock;
-		srand(time(NULL));
-		for (unsigned int i = 0; i < n; i++)
-			tmpStock.push_back(rand() % 100000);
-
-		std::vector<int>	tmpDist;
-		for (unsigned int i = 0; i < n - 1; i++)
-			tmpDist.push_back(calculateDist(tmpStock[i], tmpStock[i + 1]));
-
-		_stock.insert(_stock.end(), tmpStock.begin(), tmpStock.end());
-		_dist.insert(_dist.end(), tmpDist.begin(), tmpDist.end());
 		
+		s_vec_it< int >::t	it = range.first;
+		for (size_t i = _stock.size(); i < _size && it != range.second; i++, it++);
+		_stock.insert(_stock.end(), range.first, it);
+		
+		if (it != range.second)
+			throw (RangeCutException());
 	} catch (FullStockException& e) {
+		std::cerr << e.what() << std::endl;
+	} catch (RangeCutException& e) {
 		std::cerr << e.what() << std::endl;
 	}
 }
 
-int	Span::shortestSpan() {
+int	Span::shortestSpan() const {
 	try {
 		if (_size <= 1)
 			throw (TooFewNbrsException());
-		return (*(std::min_element(_dist.begin(), _dist.end())));
+
+		std::vector< int >	sorted = _stock;
+		std::sort(sorted.begin(), sorted.end());
+		
+		int	minSpan = sorted[1] - sorted[0];
+		for (size_t i = 1, n = sorted.size(); i < n - 1; i++) {
+			int	tmp = sorted[i + 1] - sorted[i];
+			if (tmp < minSpan)
+				minSpan = tmp;
+		}
+		return (minSpan);
 	} catch (TooFewNbrsException& e) {
 		std::cerr << e.what() << std::endl;
 		return (-1);
 	}
 }
 
-int	Span::longestSpan() {
+int	Span::longestSpan() const {
 	try {
 		if (_size <= 1)
 			throw (TooFewNbrsException());
-		return (*(std::max_element(_dist.begin(), _dist.end())));
+		
+		std::cout << "max element = " << *(std::max_element(_stock.begin(), _stock.end())) << std::endl
+			<< "min element = " << *(std::min_element(_stock.begin(), _stock.end())) << std::endl;
+		return (*(std::max_element(_stock.begin(), _stock.end()))
+			- *(std::min_element(_stock.begin(), _stock.end())));
 	} catch (TooFewNbrsException& e) {
 		std::cerr << e.what() << std::endl;
 		return (-1);
@@ -111,13 +107,6 @@ void	Span::print() {
 		std::cout << *it << std::endl;
 		it++;
 	}
-	it = _dist.begin();
-	end = _dist.end();
-	std::cout << "///// Dist:" << std::endl;
-	while (it != end) {
-		std::cout << *it << std::endl;
-		it++;
-	}
 }
 
 Span::~Span() {}
@@ -128,4 +117,8 @@ const char*	Span::FullStockException::what() const throw() {
 
 const char*	Span::TooFewNbrsException::what() const throw() {
 	return ("There is less than two elements in the container. Therefore min or max span cannot be calculated. -1 is returned instead.");
+}
+
+const char*	Span::RangeCutException::what() const throw() {
+	return ("Could not insert full range: exceeded max size.");
 }

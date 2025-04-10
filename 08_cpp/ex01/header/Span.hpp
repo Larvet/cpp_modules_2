@@ -16,11 +16,20 @@
 #include <cstdlib>
 #include <ctime>
 
+template< typename T >
+struct	s_vec_it {
+	typedef typename std::vector< T >::const_iterator	t;
+};
+
+template< typename T >
+struct	s_vec_range {
+	typedef typename std::pair< typename s_vec_it< T >::t, typename s_vec_it< T >::t >	t;
+};
+
 class	Span {
 	private:
 		unsigned int	_size;
 		std::vector<int>	_stock;
-		std::vector<int>	_dist;
 	public:
 		Span();
 		Span(unsigned int N);
@@ -34,10 +43,11 @@ class	Span {
 		void	updateDist(int a, int b);
 		void	addNumber(int nbr);
 
-		void	addRange(unsigned int n); /////
+		void	addRange(typename s_vec_range< int >::t range);
 
-		int	shortestSpan();
-		int	longestSpan();
+		int	shortestSpan() const;
+
+		int	longestSpan() const;
 
 		void	print();
 
@@ -48,6 +58,10 @@ class	Span {
 				const char*	what() const throw();
 		};
 		class	TooFewNbrsException: public std::exception {
+			public:
+				const char*	what() const throw();
+		};
+		class	RangeCutException: public std::exception {
 			public:
 				const char*	what() const throw();
 		};

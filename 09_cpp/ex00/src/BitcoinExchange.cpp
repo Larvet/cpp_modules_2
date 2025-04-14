@@ -26,7 +26,7 @@ static void	eraseWhitespaces(std::string& str) {
 }
 
 void	BitcoinExchange::parseDataBase() {
-	std::ifstream	ifs("./data.csv"); // is dir ?
+	std::ifstream	ifs("./data.csv");
 	if (!ifs.is_open())
 		throw (CannotOpenFile("./data.csv"));
 	
@@ -74,7 +74,6 @@ static bool	isValidDate(const std::string& date, const std::string& min) {
 
 	buf = date.substr(pos1 + 1, pos2 - (pos1 + 1));
 	nbr = std::atoi(buf.c_str());
-//	std::cout << "buf = " << buf << "\t" << nbr << std::endl;
 	if (buf.size() != 2 || !isDigit(buf)
 		|| nbr < 1 || nbr > 12)
 			return (false);
@@ -122,44 +121,39 @@ float	BitcoinExchange::calculateResult(const std::string& date, const std::strin
 }
 
 void	BitcoinExchange::readInputFile(const char* const & fileName) {
-	try {
-			std::ifstream	ifs(fileName); // is dir ?
-			if (!ifs.is_open())
-			throw (CannotOpenFile(fileName));
+	std::ifstream	ifs(fileName);
+	if (!ifs.is_open())
+		throw (CannotOpenFile(fileName));
 
-		std::string	str;
-		std::getline(ifs, str); // check if header
-		while (std::getline(ifs, str)) {
-			try {
-				size_t	pos(str.find('|'));
-				if (pos == std::string::npos)
-					throw (BadInput(str));
+	std::string	str;
+	std::getline(ifs, str);
+	while (std::getline(ifs, str)) {
+		try {
+			size_t	pos(str.find('|'));
+			if (pos == std::string::npos)
+				throw (BadInput(str));
+			std::string	date = str.substr(0, pos),
+				amount = str.substr(pos + 1);
 
-				std::string	date = str.substr(0, pos),
-					amount = str.substr(pos + 1);
-				eraseWhitespaces(date);
-				eraseWhitespaces(amount);
+			eraseWhitespaces(date);
+			eraseWhitespaces(amount);
 
-				if (!isValidDate(date, getMin()))
-					throw (InvalidDate(date));
-				if (!isValidAmount(amount))
-					throw (InvalidAmount(amount));
+			if (!isValidDate(date, getMin()))
+				throw (InvalidDate(date));
+			if (!isValidAmount(amount))
+				throw (InvalidAmount(amount));
 
-				float	result = calculateResult(date, amount);
+			float	result = calculateResult(date, amount);
+			std::cout << date << " => " << amount << " = "
+				<< std::fixed << std::setprecision(2) << result << std::endl;
 
-				std::cout << date << " => " << amount << " = "
-					<< std::fixed << std::setprecision(2) << result << std::endl;
-
-			} catch (BadInput& e) {
-				std::cerr << "Error: " << e.what() << std::endl;
-			} catch (InvalidDate& e) {
-				std::cerr << "Error: " << e.what() << std::endl;
-			} catch (InvalidAmount& e) {
-				std::cerr << "Error: " << e.what() << std::endl;
-			}
+		} catch (BadInput& e) {
+			std::cerr << "Error: " << e.what() << std::endl;
+		} catch (InvalidDate& e) {
+			std::cerr << "Error: " << e.what() << std::endl;
+		} catch (InvalidAmount& e) {
+			std::cerr << "Error: " << e.what() << std::endl;
 		}
-	} catch (CannotOpenFile& e) {
-		std::cerr << "Error: " << e.what() << std::endl;
 	}
 }
 

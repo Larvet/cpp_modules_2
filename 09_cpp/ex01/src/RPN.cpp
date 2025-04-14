@@ -2,13 +2,9 @@
 
 RPN::RPN() {}
 
-RPN::RPN(const char* const & input) {
-	try {
-		readInput(input);
-		printResult();
-	} catch (SyntaxError& e) {
-		std::cerr << e.what() << std::endl;
-	}
+RPN::RPN(std::string input) {
+	readInput(input);
+	printResult();
 }
 
 RPN::RPN(const RPN& rhs) {
@@ -28,11 +24,11 @@ static bool	isOperator(const char& c) {
 void	RPN::calculate(const char& op) {
 	if (_stack.size() < 2)
 		throw (SyntaxError());
-	int	a = _stack.top();
+	double	a = _stack.top();
 	_stack.pop();
-	int	b = _stack.top();
+	double	b = _stack.top();
 	_stack.pop();
-	int	result;
+	double	result;
 	if (op == '+')
 		result = b + a;
 	else if (op == '-')
@@ -44,14 +40,16 @@ void	RPN::calculate(const char& op) {
 	_stack.push(result);
 }
 
-void	RPN::readInput(const char* const & input) {
-	for (size_t i = 0; input[i]; i++, i += (input[i] == ' ')) {
+void	RPN::readInput(const std::string& input) {
+	size_t i = input.find_first_not_of(WHITESPACES, 0);
+	while (i != std::string::npos) {
 		if (isdigit(input[i]))
 			_stack.push(input[i] - 48);
 		else if (isOperator(input[i]))
 			calculate(input[i]);
 		else
 			throw (SyntaxError());
+		i = input.find_first_not_of(WHITESPACES, i + 1);
 	}
 }
 

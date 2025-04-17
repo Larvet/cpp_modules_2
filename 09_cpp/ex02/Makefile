@@ -1,5 +1,5 @@
-NAME = PMergeMe
+NAME = PmergeMe
 
-SRC = main.cpp PMergeMe.cpp
+SRC = main.cpp PmergeMe.cpp
 
 include ../ex00/Makefile
